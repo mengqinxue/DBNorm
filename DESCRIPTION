@@ -1,9 +1,10 @@
-Package: DBNorm_package
+Package: DBNorm
 Type: Package
-Title: What the package does (short line)
+Title: Distribution-based normalisation
 Version: 1.0
-Date: 2016-07-11
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Date: 2016-07-05
+Author: Qinxue Meng
+Maintainer: Qinxue Meng <Qinxue.Meng@uts.edu.au>
+Description: Distribution-based normalisation
+License: GPL-3.0
+RoxygenNote: 5.0.1
