@@ -64,13 +64,29 @@ fourierFit <- function(DBdata, n){
   # build fourier equations
   equ = "y ~ "
   for (i in 1:n){
-    equ = paste(equ, "sin(", i, "*x) + cos(", i, "*x)", sep="")
+    equ = paste(equ, "cos(", i, "*x) + sin(", i, "*x)", sep="")
     if (i < n){equ = paste(equ, "+ ")}
   }
-  
   equ = as.formula(equ)
-  
   fourierFit <- lm(equ)
+  
+  #equ = "y ~ a + "
+  #for (i in 1:n){
+  #  equ = paste(equ, "a", i, "*cos(w*", i, "*x) + b",i,"*sin(w*", i, "*x)", sep="")
+  #  if (i < n){equ = paste(equ, "+ ")}
+  #}
+  #start <- vector("list")
+  #start$w = 1
+  #start$a = 1
+  #for (i in 1:n){
+  #  start$tmp = 1
+  #  names(start)[length(names(start))] = paste("a",i,sep="")
+  #  start$tmp = 1
+  #  names(start)[length(names(start))] = paste("b",i,sep="")
+  #}
+  #df <- data.frame(x, y)
+  #equ = as.formula(equ)
+  #fourierFit <- nls(equ, data=df, start)
   
   DBdata$y_predicted <- predict(fourierFit, data.frame(x=x))
   

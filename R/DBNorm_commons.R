@@ -70,7 +70,7 @@ genDistData <- function(data, nbin) {
 #' into a standard distribution. 
 #' @seealso \code{list()}
 #' @export
-#' @importFrom("distr", d) 
+#' @importFrom distr::d()
 #' @examples 
 #' # generate distribution data of a normal distribution
 #' DArray5 <- defineDist(Norm(mean=0, sd=1))

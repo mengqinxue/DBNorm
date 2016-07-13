@@ -1,5 +1,4 @@
 library(DBNorm)
-library(distr)
 
 # load example data arrays
 loadData(0)
@@ -35,7 +34,7 @@ DBdata3 <- polyFit(DBdata3, 9)
 DBdata4 <- polyFit(DBdata4, 9)
 
 # Fourier fitting
-DBdata1 <- fourierFit(DBdata1, 9)
+DBdata1 <- fourierFit(DBdata1, 3)
 DBdata2 <- fourierFit(DBdata2, 9)
 DBdata3 <- fourierFit(DBdata3, 9)
 DBdata4 <- fourierFit(DBdata4, 9)
@@ -59,11 +58,13 @@ visFitting(DBdata3, "DArray3", "Range", "Probability")
 visFitting(DBdata4, "DArray4", "Range", "Probability")
 visFitting(DBdata5, "DArray5", "Range", "Probability")
 
-# Normalization
-disNormalizer(DBdata1$data, DBdata3$data)
+# Continuous Normalization
+DA1toDA3 = conNormalizer(DBdata1, DBdata3)
+DA1toDA3DBdata <- genDistData(DA1toDA3$mapped_data, 500)
+visDistData(DA1toDA3DBdata, "F", "DArray1", "Range", "Frequency")
 
-
-
-
-
+# Discrete Normalization
+DA1toDA3 = disNormalizer(DBdata1$data, DBdata3$data)
+DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
+visDistData(DA1toDA3DBdata, "F", "DArray1", "Range", "Frequency")
 

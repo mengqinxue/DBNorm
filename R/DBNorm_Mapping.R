@@ -8,7 +8,7 @@
 #--------------------------------------------------------------
 calProb <- function(elem, data){
   
-  prob = 0
+  prob = 0.0
   
   if (elem == data$min){
     return(0)
@@ -18,6 +18,19 @@ calProb <- function(elem, data){
     return(1)
   }
   
+  offset = (elem - data$min) * sum(data$y_predicted[data$y_predicted<0])
+  offset = offset / (data$max-data$min)
+  
+  #for (i in 2:data$nbin){
+  #  if (i == data$nbin){
+  #    prob = prob + (elem - data$x_data[i]) * data$y_predicted[i]
+  #  } else if (elem > data$x_data[i]){
+  #    prob = prob + data$y_predicted[i-1]
+  #  } else {
+  #    prob = prob + (elem - data$x_data[i-1]) * data$y_predicted[i-1]
+  #    break
+  #  }
+  #}
   for (i in 1:data$nbin){
     if (elem > data$x_data[i]){
       prob = prob + data$y_predicted[i]
@@ -27,7 +40,11 @@ calProb <- function(elem, data){
     }
   }
   
-  return(prob)
+  #if (as.numeric(prob) > 1){
+  #  print(elem)
+  #}
+  
+  return(as.numeric(prob+offset))
 }
 
 #--------------------------------------------------------------
@@ -37,22 +54,27 @@ calElem <- function(prob, data){
   
   i = 1
   elem = 0
-  y_prob = 0
+  y_prob = 0.0
   
   if (prob == 0){
     return(data$min)
   }
   
   if (prob == 1){
-    return(dd2$max)
+    return(data$max)
   }
   
   while (TRUE){
+    #print(i)
+    #print(prob)
+    #print(y_prob)
+    
     if (prob > y_prob){
       y_prob = y_prob + data$y_prob[i]
       i = i + 1
     } else {
       elem = data$x_data[i] - (y_prob - prob) * data$diff 
+      i = 1
       break
     }
   }
