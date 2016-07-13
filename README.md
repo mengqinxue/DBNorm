@@ -3,7 +3,9 @@ Distribution-based normalization
 
 ## Install in R
 library.packages("devtools")
+
 library("devtools")
+
 install_github("mengqinxue/DBNorm")
 
 PS: if lazy loading failed to install a required package "distr", please install it manually before running DBNorm. 
