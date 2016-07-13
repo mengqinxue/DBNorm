@@ -4,7 +4,7 @@
 
 #' fitting a distribution by polynomial curve fitting
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata input distribution dataset 
 #' @param n the degree of polynomial functions
 #' @return a polynomial curve fitting function
@@ -41,7 +41,7 @@ polyFit <- function(DBdata, n){
 
 #' fitting a distribution by fourier curve fitting
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata input distribution dataset 
 #' @param n the degree of the fourier fitting function
 #' @return a fourier curve fitting function
@@ -106,7 +106,7 @@ fourierFit <- function(DBdata, n){
 
 #' fitting a distribution by gaussian curve fitting
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata input distribution dataset 
 #' @return a gaussian curve fitting function
 #' @details 
@@ -148,7 +148,7 @@ gaussianFit <- function(DBdata){
 
 #' fitting a distribution by a customised curve function
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata input distribution dataset 
 #' @param formula a customised curve function 
 #' @return a customised curve fitting function

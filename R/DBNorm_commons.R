@@ -4,7 +4,7 @@
 
 #' Generating distribution dataset based on input data arrays.
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param data input data array 
 #' @param nbin number of bins 
 #' @return a distribution dataset of a given input data array
@@ -59,7 +59,7 @@ genDistData <- function(data, nbin) {
 
 #' Generating distribution data based on predefined distribution
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param dist a predefined distribution 
 #' @param min the lower bound of data range and default value is 0
 #' @param max the upper bound of data range and default value is 1
@@ -100,7 +100,7 @@ defineDist <- function(dist, min=0, max=1) {
 
 #' Visualising distribution dataset
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata a distribution dataset 
 #' @param type plot by frequence / probability
 #' @param t title of plot
@@ -134,7 +134,7 @@ visDistData <- function(DBdata, type, t, xl, yl) {
 
 #' Visualising fitting results on the input distribution
 #' 
-#' @author Qinxue Meng
+#' @author Qinxue Meng, Paul Kennedy
 #' @param DBdata a distribution dataset 
 #' @param t title of plot
 #' @param xl description of x-asis 
