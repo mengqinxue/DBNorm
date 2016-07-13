@@ -1,6 +1,13 @@
 # DBNorm
 Distribution-based normalization
 
+## Install in R
+library.packages("devtools")
+library("devtools")
+install_github("mengqinxue/DBNorm")
+
+PS: if lazy loading failed to install a required package "distr", please install it manually before running DBNorm. 
+
 ## Example data arrays
 This library provides four example data arrays for testing purpose and they are DArray1 (22,277), DArray2 (22,277), DArray3 (54,675) and DArray4 (33,297). 
 
