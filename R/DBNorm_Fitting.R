@@ -35,6 +35,8 @@ polyFit <- function(DBdata, n){
     DBdata$equ = paste("(", polyFit$coefficients[i], ")*", "x^", i-1, "+", DBdata$equ, sep="")
   }
   
+  DBdata$fit.results <- polyFit
+  
   DBdata
   
 }
@@ -58,47 +60,45 @@ fourierFit <- function(DBdata, n){
   
   DBdata$fitting <- "Fourier Curve Fitting"
   
-  x = DBdata$x_data
-  y = DBdata$y_prob
-  
-  # build fourier equations
-  equ = "y ~ "
+  # building a fourier equation
+  equ = "y ~ a + "
   for (i in 1:n){
-    equ = paste(equ, "cos(", i, "*x) + sin(", i, "*x)", sep="")
+    equ = paste(equ, "a", i, "*cos(w*", i, "*x) + b",i,"*sin(w*", i, "*x)", sep="")
     if (i < n){equ = paste(equ, "+ ")}
   }
   equ = as.formula(equ)
-  fourierFit <- lm(equ)
   
-  #equ = "y ~ a + "
-  #for (i in 1:n){
-  #  equ = paste(equ, "a", i, "*cos(w*", i, "*x) + b",i,"*sin(w*", i, "*x)", sep="")
-  #  if (i < n){equ = paste(equ, "+ ")}
-  #}
-  #start <- vector("list")
-  #start$w = 1
-  #start$a = 1
-  #for (i in 1:n){
-  #  start$tmp = 1
-  #  names(start)[length(names(start))] = paste("a",i,sep="")
-  #  start$tmp = 1
-  #  names(start)[length(names(start))] = paste("b",i,sep="")
-  #}
-  #df <- data.frame(x, y)
-  #equ = as.formula(equ)
-  #fourierFit <- nls(equ, data=df, start)
+  # define initial values of parameters
+  start <- vector("list")
+  start$w = 0.01
+  start$a = 0.1
+  for (i in 1:n){
+    start$tmp = 0.1
+    names(start)[length(names(start))] = paste("a",i,sep="")
+    start$tmp = 0.1
+    names(start)[length(names(start))] = paste("b",i,sep="")
+  }
   
-  DBdata$y_predicted <- predict(fourierFit, data.frame(x=x))
+  x = DBdata$x_data
+  y = DBdata$y_prob
+  df <- data.frame(x, y)
+  
+  fit.nlxb <- nlxb(equ, start=start, data=df)
+  fit.nls  <- nls2(equ, df, start=fit.nlxb$coefficients, algorithm="brute-force")
+  
+  DBdata$y_predicted <- predict(fit.nls, data.frame(x=x))
+  
+  params <- summary(fit.nls)$parameters[,1]
   
   # print expression
-  len = length(fourierFit$coefficients)
-  DBdata$equ = paste("(", fourierFit$coefficients[1], ")", sep="")
-  for (i in 2:len){
-    if (!is.na(fourierFit$coefficients[i])){
-      DBdata$equ = paste(DBdata$equ, " + (", fourierFit$coefficients[i], ")*", 
-                       names(fourierFit$coefficients[i]), sep="")
-    }
+  DBdata$equ = paste("y ~ ", params[2], " + ", sep="")
+  for (i in 1:n){
+    DBdata$equ = paste(DBdata$equ, params[i+2], "*cos(",params[1],"*", i, "*x) + ", params[i+3],
+                       "*sin(", params[1],"*", i, "*x)", sep="")
+    if (i < n){DBdata$equ = paste(DBdata$equ, "+ ")}
   }
+  
+  DBdata$fit.results <- fit.nls
   
   DBdata
   
@@ -142,6 +142,8 @@ gaussianFit <- function(DBdata){
   
   DBdata$equ = paste("(", p[3],")*exp^(-(",p[2],")*(x-",p[1],")^2)", sep="")
   
+  DBdata$fit.results <- fit1G
+  
   DBdata
   
 }
@@ -183,6 +185,8 @@ custFit <- function(DBdata, formula){
                        names(custFit$coefficients[i]), sep="")
     }
   }
+  
+  DBdata$fit.results <- custFit
   
   DBdata
   

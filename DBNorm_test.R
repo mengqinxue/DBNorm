@@ -68,3 +68,56 @@ DA1toDA3 = disNormalizer(DBdata1$data, DBdata3$data)
 DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
 visDistData(DA1toDA3DBdata, "F", "DArray1", "Range", "Frequency")
 
+# Test AoV
+n = 11
+DBdata4$fitting <- "Fourier Curve Fitting"
+
+x = DBdata4$x_data
+y = DBdata4$y_prob
+
+# build fourier equations
+equ = "y ~ "
+for (i in 1:n){
+  equ = paste(equ, "cos(", i, "*x) + sin(", i, "*x)", sep="")
+  if (i < n){equ = paste(equ, "+ ")}
+}
+equ = as.formula(equ)
+fourierFit <- aov(equ, data=data.frame(x,y), singular.ok=F)
+
+y_p <- predict(fourierFit, data.frame(x=x))
+
+visDistData(DBdata4, "P", "DArray4", "Range", "Probability")
+lines(x, predict(fourierFit),col=2)
+
+
+# Test for nlxb + nls2
+library(nlmrt)
+library(nls2)
+
+n = 4
+equ = "y ~ a + "
+for (i in 1:n){
+  equ = paste(equ, "a", i, "*cos(w*", i, "*x) + b",i,"*sin(w*", i, "*x)", sep="")
+  if (i < n){equ = paste(equ, "+ ")}
+}
+
+start <- vector("list")
+start$w = 0.01
+start$a = 0.1
+for (i in 1:n){
+  start$tmp = 0.1
+  names(start)[length(names(start))] = paste("a",i,sep="")
+  start$tmp = 0.1
+  names(start)[length(names(start))] = paste("b",i,sep="")
+}
+equ = as.formula(equ)
+
+x <- DBdata1$x_data
+y <- DBdata1$y_prob
+df <- data.frame(x, y)
+
+fit.nlxb <- nlxb(equ, start=start, data=dflist, control=list(offset=10))
+fit.nls  <- nls2(equ, df, start=fit.nlxb$coefficients, algorithm="brute-force")
+
+visDistData(DBdata4, "P", "DArray1", "Range", "Probability")
+lines(x, predict(fit.nls, data.frame(x=x)),col=2)
