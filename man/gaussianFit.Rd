@@ -25,7 +25,7 @@ DBdata1 = gaussianFit(DBdata1)
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 \seealso{
 \code{optim}

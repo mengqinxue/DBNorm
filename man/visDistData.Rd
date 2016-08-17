@@ -33,6 +33,6 @@ visDistData(DBdata1, "P", "DArray1", "Range", "Probability")
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 

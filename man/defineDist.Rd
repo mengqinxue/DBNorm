@@ -30,7 +30,7 @@ DArray5 <- defineDist(Norm(mean=0, sd=1))
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 \seealso{
 \code{list()}

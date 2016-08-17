@@ -29,6 +29,6 @@ visFitting(DBdata1, "DArray1", "Range", "Probability")
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 

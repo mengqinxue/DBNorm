@@ -27,7 +27,7 @@ DBdata1 = custFit(DBdata1)
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 \seealso{
 \code{lm}

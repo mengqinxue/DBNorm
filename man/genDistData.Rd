@@ -25,7 +25,7 @@ This function generates distribution dataset based on input data arrays for down
 DData1 <- genDistData(DArray1, 500)
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 \seealso{
 \code{list()}

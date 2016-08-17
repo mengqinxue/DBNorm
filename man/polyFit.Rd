@@ -27,7 +27,7 @@ DBdata1 = polyFit(DBdata1, 3)
 
 }
 \author{
-Qinxue Meng
+Qinxue Meng, Paul Kennedy
 }
 \seealso{
 \code{lm}
