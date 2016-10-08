@@ -34,7 +34,7 @@ The function generates distributions data for downstream analysis, such as fitti
 ######Return
 A distribution dataset of a given input data array
 
-#### 3. defineDist(dist, min, max)
+#### 3. defineDist(dist)
 The function generates distribution data based on predefined distribution
 
 ######Params
@@ -137,6 +137,17 @@ The function normalize target data array to a basis array based on element posit
 **tg** - a target data array
 
 **bs** - a basis data array
+
+###### Return
+A normalized target data array with the same distribution with the basis data array
+
+#### 12. distrNormalizer(tg, bs)
+The function normalize target data array to a standard distribution. 
+
+###### Params 
+**tg** - a target data array
+
+**bs** - a standard distribution created by defineDist(dist)
 
 ###### Return
 A normalized target data array with the same distribution with the basis data array
