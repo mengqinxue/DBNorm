@@ -9,7 +9,7 @@ DBdata3 <- genDistData(DArray3, 500)
 DBdata4 <- genDistData(DArray4, 500)
 
 # define distribution
-DBdata5 <- defineDist(Norm(mean=0, sd=1), -5, 5)
+DBdata5 <- defineDist(Norm(mean=0, sd=1))
 
 # visualising distribution datasets
 visDistData(DBdata1, "F", "DArray1", "Range", "Frequency")
@@ -60,10 +60,15 @@ visFitting(DBdata5, "DArray5", "Range", "Probability")
 
 # Continuous Normalization
 DA1toDA3 = conNormalizer(DBdata1, DBdata3)
-DA1toDA3DBdata <- genDistData(DA1toDA3$mapped_data, 500)
-visDistData(DA1toDA3DBdata, "F", "DArray1", "Range", "Frequency")
+DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
+visDistData(DA1toDA3DBdata, "P", "DA1toDA3", "Range", "Probability")
 
-# Discrete Normalization
+# Emprical Normalization
 DA1toDA3 = disNormalizer(DBdata1$data, DBdata3$data)
 DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
-visDistData(DA1toDA3DBdata, "F", "DArray1", "Range", "Frequency")
+visDistData(DA1toDA3DBdata, "P", "DA1toDA3", "Range", "Probability")
+
+# Distribution Normalization
+DA1toDA5 = distrNormalizer(DBdata1, DBdata5)
+DA1toDA5DBdata <- genDistData(DA1toDA5, 500)
+visDistData(DA1toDA5DBdata, "P", "DA1toDA5", "Range", "Probability")

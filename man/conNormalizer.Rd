@@ -25,7 +25,21 @@ such as normal distribution.
 }
 \examples{
 # Normalize DArray1 to DArray3
+# load build-in data arrays 
+data(DArray1) 
+data(DArray3) 
+
+# Capturing distribution information 
+DBdata1 <- genDistData(DArray1, 500)
+DBdata3 <- genDistData(DArray3, 500)
+
+# Using Gaussian function to fit DBdata3
+DBdata3 <- gaussianFit(DBdata3)
+
+# Normalize DBdata1 to the Gaussian fitting function of DBdata3
 DArray1 = conNormalizer(DArray1, DArray3)
+DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
+visDistData(DA1toDA3DBdata, "P", "DA1toDA3", "Range", "Probability")
 
 }
 \author{

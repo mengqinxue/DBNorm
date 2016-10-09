@@ -75,12 +75,14 @@ genDistData <- function(data, nbin) {
 #' # generate distribution data of a normal distribution
 #' DArray5 <- defineDist(Norm(mean=0, sd=1))
 #' 
-defineDist <- function(dist, min=0, max=1) {
+defineDist <- function(dist) {
   
-  nbin = 500
+  min = dist@q(0.000001)
+  max = dist@q(0.999999)
+  nbin = 1000
   diff = (max - min) / nbin 
   dd <- vector("list")
-  dd$data   = NULL
+  dd$data   = dist
   dd$x_data = seq(min, max, diff) 
   dd$y_freq = d(dist)(dd$x_data)
   dd$y_prob = d(dist)(dd$x_data)

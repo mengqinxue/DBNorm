@@ -4,7 +4,7 @@
 \alias{defineDist}
 \title{Generating distribution data based on predefined distribution}
 \usage{
-defineDist(dist, min = 0, max = 1)
+defineDist(dist)
 }
 \arguments{
 \item{dist}{a predefined distribution}

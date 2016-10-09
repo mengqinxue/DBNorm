@@ -7,44 +7,9 @@
 # calculate probability of a given element
 #--------------------------------------------------------------
 calProb <- function(elem, data){
-  
-  prob = 0.0
-  
-  if (elem == data$min){
-    return(0)
-  }
-  
-  if (elem == data$max){
-    return(1)
-  }
-  
-  offset = (elem - data$min) * sum(data$y_predicted[data$y_predicted<0])
-  offset = offset / (data$max-data$min)
-  
-  #for (i in 2:data$nbin){
-  #  if (i == data$nbin){
-  #    prob = prob + (elem - data$x_data[i]) * data$y_predicted[i]
-  #  } else if (elem > data$x_data[i]){
-  #    prob = prob + data$y_predicted[i-1]
-  #  } else {
-  #    prob = prob + (elem - data$x_data[i-1]) * data$y_predicted[i-1]
-  #    break
-  #  }
-  #}
-  for (i in 1:data$nbin){
-    if (elem > data$x_data[i]){
-      prob = prob + data$y_predicted[i]
-    } else {
-      prob = prob + (elem - data$x_data[i-1]) * data$y_predicted[i]
-      break
-    }
-  }
-  
-  #if (as.numeric(prob) > 1){
-  #  print(elem)
-  #}
-  
-  return(as.numeric(prob+offset))
+  Fn <- ecdf(data$data)
+  prob <- Fn(elem)
+  return (prob)
 }
 
 #--------------------------------------------------------------
@@ -64,13 +29,15 @@ calElem <- function(prob, data){
     return(data$max)
   }
   
+  data$y_predicted = data$y_predicted / sum(data$y_predicted)
+  
   while (TRUE){
     #print(i)
     #print(prob)
     #print(y_prob)
     
     if (prob > y_prob){
-      y_prob = y_prob + data$y_prob[i]
+      y_prob = y_prob + data$y_predicted[i]
       i = i + 1
     } else {
       elem = data$x_data[i] - (y_prob - prob) * data$diff 
@@ -96,7 +63,21 @@ calElem <- function(prob, data){
 #' @export
 #' @examples 
 #' # Normalize DArray1 to DArray3
+#' # load build-in data arrays 
+#' data(DArray1) 
+#' data(DArray3) 
+#' 
+#' # Capturing distribution information 
+#' DBdata1 <- genDistData(DArray1, 500)
+#' DBdata3 <- genDistData(DArray3, 500)
+#' 
+#' # Using Gaussian function to fit DBdata3
+#' DBdata3 <- gaussianFit(DBdata3)
+#' 
+#' # Normalize DBdata1 to the Gaussian fitting function of DBdata3
 #' DArray1 = conNormalizer(DArray1, DArray3)
+#' DA1toDA3DBdata <- genDistData(DA1toDA3, 500)
+#' visDistData(DA1toDA3DBdata, "P", "DA1toDA3", "Range", "Probability")
 #'
 conNormalizer <- function(tg, bs){
   
@@ -107,7 +88,7 @@ conNormalizer <- function(tg, bs){
     tg$mapped_data[i] = calElem(prob, bs)
   }
   
-  tg
+  tg$mapped_data
 }
 
 #' Normalizing a target data array to a basis array based on element positions
@@ -153,6 +134,46 @@ disNormalizer <- function(tg, bs){
   }
   
   tg_new
+  
+}
+
+#' Normalizing a target data array to a standard distribution
+#' 
+#' @author Qinxue Meng, Paul Kennedy
+#' @param tg a target data array
+#' @param bs a standard distribution created by defineDist(dist)
+#' @return A normalized target data array with 
+#' the same distribution with the standard distribution
+#' @details 
+#' The function normalize target data array to a standard distribution.
+#' @export
+#' @importFrom distr::q()
+#' @examples 
+#' # Normalize a given data array into a normal distribution
+#' loadData(0)
+#' DBdata1 <- genDistData(DArray1, 500)
+#' DBdata5 <- defineDist(Norm(mean=0, sd=1))
+#' DA1toDA5 <- distrNormalizer(DBdata1, DBdata5)
+#' DA1toDA5DBdata <- genDistData(DA1toDA5, 500)
+#' visDistData(DA1toDA5DBdata, "P", "DA1toDA5", "Range", "Probability")
+#'
+distrNormalizer <- function(tg, bs){
+  
+  tg$mapped_data = tg$data
+  
+  for (i in 1:tg$len){
+    prob = calProb(tg$data[i], tg)
+    if (prob == 1){
+      tg$mapped_data[i] = bs$max
+    } else if (prob == 0) {
+      tg$mapped_data[i] = bs$min
+    } else {
+      tg$mapped_data[i] = bs$data@q(prob)
+    }
+    
+  }
+  
+  tg$mapped_data
   
 }
 
