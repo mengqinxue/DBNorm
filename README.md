@@ -2,7 +2,7 @@
 Distribution-based normalization
 
 ## Install in R
-library.packages("devtools")
+install.packages("devtools")
 
 library("devtools")
 
